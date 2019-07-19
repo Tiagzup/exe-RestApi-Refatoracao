@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,6 +38,17 @@ public class Produto implements Serializable {
 	@ManyToMany
 	@JoinColumn(name = "categoria_id")
 	private List<Categoria> categorias = new ArrayList<Categoria>();
+	
+	@ManyToOne
+	private Pedido pedido;
+	
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
 
 	public Produto() {
 

@@ -19,4 +19,8 @@ public class LoginService {
 		return "Login cadastrado";
 		
 	}
+	
+	public void upadate(Login login) {
+		loginRepo.save(login);
+	}
 }

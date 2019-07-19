@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,9 +41,7 @@ public class ProdutoController {
 	}
 
 	@PostMapping("/cadastrar/produtos")
-	public ModelAndView cadastrarProduto(@Valid Produto produto, BindingResult bindingProduto
-			) {
-		
+	public ModelAndView cadastrarProduto(@Valid Produto produto, BindingResult bindingProduto) {
 		ModelAndView modelAndView = new ModelAndView("cadastroProduto.html");
 		modelAndView.addObject("categorias", categoriaService.buscarTodasCategorias());
 		if(bindingProduto.hasErrors()) {
@@ -52,8 +51,24 @@ public class ProdutoController {
 			}
 			modelAndView.addObject("mensagens", mensagens);
 		}else {
-			modelAndView.addObject("mensagens", produtoService.cadastrarProduto(produto));
+			modelAndView.addObject("mensagens", produtoService.salvarProduto(produto));
 		}
 		return modelAndView;
 	}
+
+	@GetMapping("/editar/produto/{id}")
+	public ModelAndView exibirProduto(@PathVariable Integer id) {
+		ModelAndView modelAndView = new ModelAndView("editarProduto.html");
+		modelAndView.addObject("produto", produtoService.buscarProduto(id));
+		return modelAndView;
+	}
+	
+	@PostMapping("/editar/produto/{id}")
+	public ModelAndView editarProduto(Produto produto) {
+		ModelAndView modelAndView = new ModelAndView("editarProduto.html");
+		modelAndView.addObject("mensagem", produtoService.salvarProduto(produto));
+		return modelAndView;
+	}
+	
+
 }

@@ -1,11 +1,13 @@
 package com.br.spring.relacional.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -32,10 +34,21 @@ public class Usuario implements Serializable {
 	@OneToOne(mappedBy = "usuario")
 	private Login login;
 	
+	@OneToMany(mappedBy = "usuario")
+	private List<Pedido> pedido;
+	
+	
+
 	public Usuario() {
 		
 	}
+	public List<Pedido> getPedido() {
+		return pedido;
+	}
 
+	public void setPedido(List<Pedido> pedido) {
+		this.pedido = pedido;
+	}
 	public Integer getId() {
 		return id;
 	}
