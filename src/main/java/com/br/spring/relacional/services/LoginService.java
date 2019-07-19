@@ -23,4 +23,8 @@ public class LoginService {
 	public void upadate(Login login) {
 		loginRepo.save(login);
 	}
+	
+	public Login buscarPorApelidoESenha(Login login) {
+		return loginRepo.findByApelidoAndSenha(login.getApelido(), login.getSenha()).get();
+	}
 }

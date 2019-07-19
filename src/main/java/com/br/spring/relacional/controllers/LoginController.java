@@ -3,6 +3,7 @@ package com.br.spring.relacional.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,34 @@ public class LoginController {
 	@Autowired
 	private LoginService loginserv;
 
+	@GetMapping("/login")
+	public ModelAndView exibirLoginForm() {
+		ModelAndView modelAndView = new ModelAndView("login.html");
+		return modelAndView;
+	}
+
+	@PostMapping("/login")
+	public ModelAndView logar(Login login, HttpSession session) {
+		ModelAndView modelAndView = null;
+		if(session.getAttribute("ultimoURL") != null) {
+			modelAndView = new ModelAndView("redirect:"+ session.getAttribute("ultimoURL"));
+		}else {
+			modelAndView = new ModelAndView("login.html");
+		}
+		
+		Login objetoLogin = loginserv.buscarPorApelidoESenha(login);
+		if (objetoLogin != null) {
+			session.setAttribute("usuario", objetoLogin.getUsuario());
+			String saudacao = "Ola " + objetoLogin.getUsuario().getNome() + "! seja bem vindo.";
+			modelAndView.addObject("mensagem", saudacao);
+			
+		}else {
+			String deuRuim = "Mermão, deu merda. ";
+			modelAndView.addObject("mensagem", deuRuim);		
+		}
+		return modelAndView;
+	}
+
 	@GetMapping("/cadastro/login")
 	public ModelAndView exibirFormulario() {
 		ModelAndView mv = new ModelAndView("cadastro.html");
@@ -42,11 +71,18 @@ public class LoginController {
 				msgs.add(objerro.getDefaultMessage());
 			}
 			mv.addObject("msgs", msgs);
-		}else {
+		} else {
 			mv.addObject("msgs", loginserv.cadastrarLogin(user, login));
-			
+
 		}
 
 		return mv;
+	}
+	
+	@PostMapping("/sair")
+	public ModelAndView sair(HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/login");
+		session.removeAttribute("usuario");
+		return modelAndView;
 	}
 }
