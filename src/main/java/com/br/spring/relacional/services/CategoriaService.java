@@ -1,23 +1,52 @@
 package com.br.spring.relacional.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.br.spring.relacional.exceptions.CategoriaNaoEncontradaException;
 import com.br.spring.relacional.models.Categoria;
 import com.br.spring.relacional.repositories.CategoriaRepository;
 
 @Service
 public class CategoriaService {
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
-	public String cadastrarCategoria(Categoria categoria) {
-		categoriaRepository.save(categoria);
-		return "Categoria cadastrada";
-	}
-	
-	public Iterable<Categoria> buscarTodasCategorias(){
+
+	public Iterable<Categoria> buscarTodasCategorias() {
 		return categoriaRepository.findAll();
+
 	}
+
+	public long quantidadeCategoria() {
+		return categoriaRepository.count();
+	}
+
+	public void cadastrarCategoria(Categoria categoria) {
+		categoriaRepository.save(categoria);
+
+	}
+
+	public Categoria buscarCategoriaId(int id) {
+		return categoriaRepository.findById(id).get();
+	}
+
+	public void atualizarCategoria(int id, Categoria categoria) {
+		Optional<Categoria> optionalCategoria = categoriaRepository.findById(id);
+		if (!optionalCategoria.isPresent()) {
+			throw new CategoriaNaoEncontradaException("Não há categoria nesse id");
+		}
+
+	}
+
+	public void apagarCategoria(int id, Categoria categoria) {
+		categoriaRepository.deleteById(id);
+		{
+			throw new CategoriaNaoEncontradaException("Não há categoria nesse id");
+		}
+	}
+	
+
 }

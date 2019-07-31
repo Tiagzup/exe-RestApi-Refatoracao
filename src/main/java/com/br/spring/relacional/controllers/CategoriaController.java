@@ -46,7 +46,7 @@ public class CategoriaController {
 			}
 			modelAndView.addObject("mensagens", mensagens);
 		}else {
-			modelAndView.addObject("mensagens", categoriaService.cadastrarCategoria(categoria));
+			//modelAndView.addObject("mensagens", categoriaService.cadastrarCategoria(categoria));
 		}
 		return modelAndView;
 	}
