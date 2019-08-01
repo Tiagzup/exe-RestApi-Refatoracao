@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,9 +41,36 @@ public class CategoriaApiController {
 		categoriaService.cadastrarCategoria(categoria);
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
 	}
-	
+	@PutMapping
+	public ResponseEntity<?> atualizarCategoria (@PathVariable int id, 
+			@Valid @RequestBody Categoria categoria) {
+		categoriaService.atualizarCategoria(id, categoria);
+		return ResponseEntity.ok(categoria);
+	}
+	@DeleteMapping
+	public ResponseEntity<?> apagarCategoria (@PathVariable int id) {
+		categoriaService.apagarCategoria(id);
+		return ResponseEntity.ok().build();
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Mensagem mensagem = mensagemService.pegarMensagemPeloId(id);
 //return ResponseEntity.ok(mensagem);
 

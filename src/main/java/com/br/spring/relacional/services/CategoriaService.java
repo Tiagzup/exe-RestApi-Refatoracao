@@ -41,7 +41,7 @@ public class CategoriaService {
 
 	}
 
-	public void apagarCategoria(int id, Categoria categoria) {
+	public void apagarCategoria(int id) {
 		categoriaRepository.deleteById(id);
 		{
 			throw new CategoriaNaoEncontradaException("Não há categoria nesse id");
