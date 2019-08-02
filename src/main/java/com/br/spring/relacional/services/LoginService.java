@@ -9,22 +9,23 @@ import com.br.spring.relacional.repositories.LoginRepository;
 
 @Service
 public class LoginService {
-	
+
 	@Autowired
 	private LoginRepository loginRepo;
 	
-	public String cadastrarLogin(Usuario user, Login login) {
+	public void buscarPorApelidoESenha(Login login) {
+		loginRepo.findByApelidoAndSenha(login.getApelido(), login.getSenha()).get();
+	}
+
+	public void cadastrarLogin(Usuario user, Login login) {
 		login.setUsuario(user);
 		loginRepo.save(login);
-		return "Login cadastrado";
-		
+
 	}
-	
+
 	public void upadate(Login login) {
 		loginRepo.save(login);
 	}
+
 	
-	public Login buscarPorApelidoESenha(Login login) {
-		return loginRepo.findByApelidoAndSenha(login.getApelido(), login.getSenha()).get();
-	}
 }
