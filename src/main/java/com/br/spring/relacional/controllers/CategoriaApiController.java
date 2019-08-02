@@ -22,7 +22,7 @@ import com.br.spring.relacional.services.CategoriaService;
 public class CategoriaApiController {
 	@Autowired
 	private CategoriaService categoriaService;
-	
+	@GetMapping
 	public ResponseEntity buscarCategoria(){
 		if(categoriaService.quantidadeCategoria() > 0) {
 			return ResponseEntity.ok(categoriaService.buscarTodasCategorias());
@@ -45,7 +45,7 @@ public class CategoriaApiController {
 	public ResponseEntity<?> atualizarCategoria (@PathVariable int id, 
 			@Valid @RequestBody Categoria categoria) {
 		categoriaService.atualizarCategoria(id, categoria);
-		return ResponseEntity.ok(categoria);
+		return ResponseEntity.status(HttpStatus.OK).body(categoria);
 	}
 	@DeleteMapping
 	public ResponseEntity<?> apagarCategoria (@PathVariable int id) {
